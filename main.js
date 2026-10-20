@@ -1,18 +1,20 @@
-const url = 'https://i92532wp.beget.tech/hello.php'; 
+// Обязательно HTTPS, иначе GitHub (клиент) заблокирует запрос!
+const url = 'https://i92532wp.beget.tech'; 
 
-fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Сеть ответила с ошибкой: ' + response.status);
-        }
-        return response.text(); // Читаем ответ как текст
-    })
-    .then(text => {
-        console.log('Текст из PHP файла:', text); 
-        // Теперь в переменной text лежит твой "Hello World" (или что там вывел PHP)
-        // Можешь вставить его на страницу, например:
-        // document.getElementById('output').innerText = text;
-    })
-    .catch(error => {
-        console.error('Не удалось забрать текст. Ошибка:', error);
-    });
+fetch(url, {
+    method: 'GET',
+    mode: 'cors' // Явно указываем режим CORS
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Ошибка сервера Beget: ' + response.status);
+    }
+    return response.text();
+})
+.then(text => {
+    console.log('Данные с Beget получены:', text);
+    // Делай с текстом что хочешь на странице гитхаба
+})
+.catch(error => {
+    console.error('Связка сорвалась. Ошибка:', error);
+});
